@@ -1,4 +1,5 @@
 import { Client } from 'discord.js';
+import config from '../utils/config.js';
 import 'dotenv/config';
 
 // event name - required to bind event to function
@@ -12,21 +13,18 @@ export const once = true;
  */
 export const execute = async (client) => {
 	console.log(`Logged in as ${client.user.tag}`);
+	const guild = config.get('guild');
 
 	const cmds = await client.application.commands.fetch({
-		guildId: process.env.GUILD_ID || undefined,
+		guildId: guild || undefined,
 	});
 
 	// delete/edit already registered commands
 	cmds.each(async (command) => {
 		const cmd = client.commands.get(command.name);
-		if (!cmd)
-			client.application.commands.delete(command, process.env.GUILD_ID || undefined);
+		if (!cmd) client.application.commands.delete(command, guild || undefined);
 		else {
-			const c = await client.application.commands.create(
-				cmd.data,
-				process.env.GUILD_ID || undefined
-			);
+			const c = await client.application.commands.edit(cmd.data, guild || undefined);
 			if (cmd.permissions) c.permissions?.set({ permissions: cmd.permissions });
 			client.commands.set(cmd.name, { ...cmd, registered: true });
 		}
@@ -38,7 +36,7 @@ export const execute = async (client) => {
 		.each(async (command) => {
 			const cmd = await client.application.commands.create(
 				command.data,
-				process.env.GUILD_ID || undefined
+				guild || undefined
 			);
 			if (command.permissions) cmd.permissions?.set({ permissions: command.permissions });
 		});

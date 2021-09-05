@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/matta-official/modmail.git",
   "author": "Matthew Adcock <matthew.n.adcock@gmail.com>",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {
