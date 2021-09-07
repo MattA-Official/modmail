@@ -1,6 +1,5 @@
 import { Client } from 'discord.js';
 import config from '../utils/config.js';
-import 'dotenv/config';
 
 // event name - required to bind event to function
 export const name = 'ready';
